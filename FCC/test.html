@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Test</title>
+</head>
+<body>
+    <h2>Camera Test</h2>
+    <video id="preview" style="width: 100%; height: auto;"></video>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/instascan/1.0.0/instascan.min.js"></script>
+    <script>
+        let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+
+        scanner.addListener('scan', function(content) {
+            console.log(content);  // Log scanned content to console
+        });
+
+        Instascan.Camera.getCameras().then(function(cameras) {
+            if (cameras.length > 0) {
+                scanner.start(cameras[0]);
+            } else {
+                alert('No cameras found.');
+            }
+        }).catch(function(e) {
+            console.error(e);
+            alert('Error accessing the camera: ' + e);
+        });
+    </script>
+</body>
+</html>
